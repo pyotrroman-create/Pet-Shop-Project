@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+.contact {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+.title {
+  margin: 0 0 40px;
+  font-size: 64px;
+  line-height: 110%;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 780px 548px;
+  gap: 32px;
+}
+
+.card {
+  padding: 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #F1F3F4;
+  border-radius: 10px;
+  gap: 16px;
+}
+
+
+.phone {
+  width: 780px;
+  height: 150px;
+}
+
+
+.social {
+  width: 548px;
+  height: 150px;
+}
+
+
+.addressCard {
+  width: 780px;
+  height: 194px;
+}
+
+
+.workingHours {
+  width: 548px;
+  height: 194px;
+}
+
+.label {
+  font-size: 20px;
+  line-height: 130%;
+  color: #8B8B8B;
+  font-weight: 500;
+}
+
+.value,
+.address {
+  margin: 0;
+  font-size: 40px;
+  line-height: 110%;
+  font-weight: 600;
+  color: #282828;
+  text-decoration: none;
+}
+
+.address {
+  font-style: normal;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #282828;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.socialLink:hover {
+  opacity: 0.6;
+}
+
+.icon {
+  width: 43px;
+  height: 43px;
+  display: block;
+}
+
+.mapContainer {
+  width: 100%;
+  margin-top: 32px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.mapContainer iframe {
+  display: block;
+  width: 100%;
+  height: 350px;
+  border: 0;
+}
