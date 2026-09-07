@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import styles from "./Header.module.css";
+
 import logo from "../assets/icons/Logo.svg";
 import cartIcon from "../assets/icons/cart.svg";
 
@@ -7,7 +8,6 @@ function Header({ cartCount = 0 }) {
     return (
         <header className={styles.header}>
             <div className={styles.header__container}>
-
 
                 <Link to="/" className={styles.header__logo}>
                     <img
@@ -17,25 +17,36 @@ function Header({ cartCount = 0 }) {
                     />
                 </Link>
 
-
                 <nav className={styles.header__nav}>
-                    <Link to="/" className={styles.header__link}>
+                    <NavLink
+                        to="/"
+                        className={styles.header__link}
+                        end
+                    >
                         Main Page
-                    </Link>
+                    </NavLink>
 
-                    <Link to="/categories" className={styles.header__link}>
+                    <NavLink
+                        to="/categories"
+                        className={styles.header__link}
+                    >
                         Categories
-                    </Link>
+                    </NavLink>
 
-                    <Link to="/products" className={styles.header__link}>
+                    <NavLink
+                        to="/products"
+                        className={styles.header__link}
+                    >
                         All products
-                    </Link>
+                    </NavLink>
 
-                    <Link to="/sales" className={styles.header__link}>
+                    <NavLink
+                        to="/sales"
+                        className={styles.header__link}
+                    >
                         All sales
-                    </Link>
+                    </NavLink>
                 </nav>
-
 
                 <Link to="/cart" className={styles.header__cart}>
                     <img
@@ -50,6 +61,7 @@ function Header({ cartCount = 0 }) {
                         </span>
                     )}
                 </Link>
+
             </div>
         </header>
     );
