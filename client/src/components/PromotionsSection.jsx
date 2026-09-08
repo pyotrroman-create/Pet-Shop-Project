@@ -29,3 +29,4 @@ const PromotionsSection = () => {
 };
 
 export default PromotionsSection;
+

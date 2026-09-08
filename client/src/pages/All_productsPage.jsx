@@ -1,7 +1,7 @@
 function All_productsPage() {
   return (
     <div>
-      
+
     </div>
   );
 }

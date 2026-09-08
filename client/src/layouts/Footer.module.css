@@ -28,7 +28,7 @@
   flex-direction: column;
   justify-content: space-between;
   background: #F1F3F4;
-  border-radius: 10px;
+  border-radius: 12px;
   gap: 16px;
 }
 
@@ -106,7 +106,7 @@
   width: 100%;
   margin-top: 32px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .mapContainer iframe {
