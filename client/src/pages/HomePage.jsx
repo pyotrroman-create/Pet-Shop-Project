@@ -10,7 +10,6 @@ function HomePage() {
       <CategoriesSection />
       <DiscountForm />
       <SaleSection />
-
     </div>
   );
 }

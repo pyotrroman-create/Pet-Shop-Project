@@ -4,9 +4,7 @@
 
 .contact {
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 80px 40px;
+  margin: 80px 0;
 }
 
 .title {
@@ -14,6 +12,7 @@
   font-size: 64px;
   line-height: 110%;
   font-weight: 700;
+  color: #282828;
 }
 
 .grid {

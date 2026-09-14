@@ -1,8 +1,7 @@
 .categories {
     width: 100%;
-    max-width: 1440px;
     margin: 0 auto;
-    padding: 80px 40px 106px;
+    padding-bottom: 26px;
     box-sizing: border-box;
 }
 
@@ -11,6 +10,7 @@
     font-size: 64px;
     line-height: 110%;
     font-weight: 700;
+    color: #282828;
 }
 
 .categories__list {
