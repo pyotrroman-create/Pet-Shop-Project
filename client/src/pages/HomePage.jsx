@@ -1,15 +1,26 @@
-import PromotionsSection from '../components/PromotionsSection';
-import CategoriesSection from '../components/CategoriesSection';
-import DiscountForm from '../components/DiscountForm';
-import SaleSection from '../components/SaleSection';
+import PromotionsSection from "../components/PromotionsSection";
+import CategoriesSection from "../components/CategoriesSection";
+import DiscountForm from "../components/DiscountForm";
+import SaleSection from "../components/SaleSection";
 
-function HomePage() {
+function HomePage({
+  cart,
+  onAddToCart,
+  onRemoveFromCart,
+}) {
   return (
     <div>
       <PromotionsSection />
+
       <CategoriesSection />
+
       <DiscountForm />
-      <SaleSection />
+
+      <SaleSection
+        cart={cart}
+        onAddToCart={onAddToCart}
+        onRemoveFromCart={onRemoveFromCart}
+      />
     </div>
   );
 }

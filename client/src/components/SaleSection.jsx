@@ -3,10 +3,15 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./SaleSection.module.css";
 import getDiscount from "../utils/getDiscount";
+import AddToCartButton from "./AddToCartButton";
 
 const API_URL = "http://localhost:3333";
 
-function SaleSection() {
+function SaleSection({
+    cart = [],
+    onAddToCart,
+    onRemoveFromCart,
+}) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -54,35 +59,90 @@ function SaleSection() {
                         newPrice
                     );
 
+                    const isInCart = cart.some(
+                        (item) => item.id === product.id
+                    );
+
                     return (
                         <Link
-                            to={`/products/${product.id}`}
                             key={product.id}
+                            to={`/products/${product.id}`}
                             className={styles["sale-card"]}
                         >
-                            <div className={styles["sale-card__image-wrapper"]}>
+                            <div
+                                className={
+                                    styles[
+                                    "sale-card__image-wrapper"
+                                    ]
+                                }
+                            >
                                 <img
-                                    className={styles["sale-card__image"]}
+                                    className={
+                                        styles["sale-card__image"]
+                                    }
                                     src={`${API_URL}${product.image}`}
                                     alt={product.title}
                                 />
 
-                                <span className={styles["sale-card__discount"]}>
+                                <span
+                                    className={
+                                        styles[
+                                        "sale-card__discount"
+                                        ]
+                                    }
+                                >
                                     -{discount}%
                                 </span>
+
+                                <AddToCartButton
+                                    product={product}
+                                    isInCart={isInCart}
+                                    onAddToCart={onAddToCart}
+                                    onRemoveFromCart={
+                                        onRemoveFromCart
+                                    }
+                                />
                             </div>
 
-                            <div className={styles["sale-card__info"]}>
-                                <h3 className={styles["sale-card__title"]}>
+                            <div
+                                className={
+                                    styles["sale-card__info"]
+                                }
+                            >
+                                <h3
+                                    className={
+                                        styles[
+                                        "sale-card__title"
+                                        ]
+                                    }
+                                >
                                     {product.title}
                                 </h3>
 
-                                <div className={styles["sale-card__prices"]}>
-                                    <span className={styles["sale-card__price"]}>
+                                <div
+                                    className={
+                                        styles[
+                                        "sale-card__prices"
+                                        ]
+                                    }
+                                >
+                                    <span
+                                        className={
+                                            styles[
+                                            "sale-card__price"
+                                            ]
+                                        }
+                                    >
                                         ${newPrice}
                                     </span>
 
-                                    <span className={styles["sale-card__old-price"]}>
+                                    <span
+                                        className={
+                                            styles[
+                                            "sale-card__old-price"
+                                            ]
+                                        }
+                                    >
                                         ${oldPrice}
                                     </span>
                                 </div>
