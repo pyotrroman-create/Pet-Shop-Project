@@ -3,8 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
 import HomePage from "./pages/HomePage";
-import All_productsPage from "./pages/All_productsPage";
-import All_salesPage from "./pages/All_salesPage";
+import AllProductsPage from "./pages/AllProductsPage";
+import AllSalesPage from "./pages/AllSalesPage";
 import CartPage from "./pages/CartPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import CategoryProductsPage from "./pages/Category-productsPage";
@@ -51,7 +51,7 @@ function App() {
           <Route
             path="/products"
             element={
-              <All_productsPage
+              <AllProductsPage
                 cart={cart}
                 onAddToCart={handleAddToCart}
                 onRemoveFromCart={handleRemoveFromCart}
@@ -62,7 +62,7 @@ function App() {
           <Route
             path="/sales"
             element={
-              <All_salesPage
+              <AllSalesPage
                 cart={cart}
                 onAddToCart={handleAddToCart}
                 onRemoveFromCart={handleRemoveFromCart}

@@ -9,15 +9,17 @@ import AddToCartButton from "./AddToCartButton";
 
 const API_URL = "http://localhost:3333";
 
-function DiscountedItems({
+function CategoryProducts({
     cart,
     onAddToCart,
     onRemoveFromCart,
 }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+
     const [priceFrom, setPriceFrom] = useState("");
     const [priceTo, setPriceTo] = useState("");
+    const [discountedOnly, setDiscountedOnly] = useState(false);
     const [sort, setSort] = useState("default");
 
     useEffect(() => {
@@ -29,10 +31,7 @@ function DiscountedItems({
                     `${API_URL}/products/all`
                 );
 
-                console.log(
-                    "Products response:",
-                    response.data
-                );
+                console.log("Products response:", response.data);
 
                 setProducts(response.data ?? []);
             } catch (error) {
@@ -61,21 +60,12 @@ function DiscountedItems({
             to: "/",
         },
         {
-            label: "All sales",
+            label: "All products",
         },
     ];
 
-    const discountedProducts = [...products]
+    const filteredProducts = [...products]
         .filter((product) => {
-            const hasDiscount =
-                product.discont_price !== null &&
-                product.discont_price !== undefined &&
-                product.discont_price < product.price;
-
-            if (!hasDiscount) {
-                return false;
-            }
-
             const productPrice =
                 product.discont_price ?? product.price;
 
@@ -89,6 +79,17 @@ function DiscountedItems({
             if (
                 priceTo !== "" &&
                 productPrice > Number(priceTo)
+            ) {
+                return false;
+            }
+
+            if (
+                discountedOnly &&
+                !(
+                    product.discont_price !== null &&
+                    product.discont_price !== undefined &&
+                    product.discont_price < product.price
+                )
             ) {
                 return false;
             }
@@ -145,14 +146,16 @@ function DiscountedItems({
             <Breadcrumbs items={breadcrumbItems} />
 
             <h1 className={styles["category-products__title"]}>
-                Discounted items
+                All products
             </h1>
             <Filter
                 priceFrom={priceFrom}
                 priceTo={priceTo}
+                discountedOnly={discountedOnly}
                 sort={sort}
                 onPriceFromChange={setPriceFrom}
                 onPriceToChange={setPriceTo}
+                onDiscountedChange={setDiscountedOnly}
                 onSortChange={setSort}
             />
 
@@ -161,15 +164,22 @@ function DiscountedItems({
                     styles["category-products__cards"]
                 }
             >
-                {discountedProducts.map((product) => {
+                {filteredProducts.map((product) => {
                     const isInCart = cart.some(
                         (item) => item.id === product.id
                     );
 
-                    const discount = getDiscount(
-                        product.price,
-                        product.discont_price
-                    );
+                    const hasDiscount =
+                        product.discont_price !== null &&
+                        product.discont_price !== undefined &&
+                        product.discont_price < product.price;
+
+                    const discount = hasDiscount
+                        ? getDiscount(
+                            product.price,
+                            product.discont_price
+                        )
+                        : 0;
 
                     return (
                         <Link
@@ -196,15 +206,17 @@ function DiscountedItems({
                                     alt={product.title}
                                 />
 
-                                <span
-                                    className={
-                                        styles[
-                                        "product-card__discount"
-                                        ]
-                                    }
-                                >
-                                    -{discount}%
-                                </span>
+                                {hasDiscount && (
+                                    <span
+                                        className={
+                                            styles[
+                                            "product-card__discount"
+                                            ]
+                                        }
+                                    >
+                                        -{discount}%
+                                    </span>
+                                )}
 
                                 <AddToCartButton
                                     product={product}
@@ -232,7 +244,6 @@ function DiscountedItems({
                                 >
                                     {product.title}
                                 </h2>
-
                                 <div
                                     className={
                                         styles[
@@ -240,24 +251,42 @@ function DiscountedItems({
                                         ]
                                     }
                                 >
-                                    <span
-                                        className={
-                                            styles[
-                                            "product-card__price"
-                                            ]
-                                        }
-                                    >
-                                        ${product.discont_price}
-                                    </span>
-                                    <span
-                                        className={
-                                            styles[
-                                            "product-card__old-price"
-                                            ]
-                                        }
-                                    >
-                                        ${product.price}
-                                    </span>
+                                    {hasDiscount ? (
+                                        <>
+                                            <span
+                                                className={
+                                                    styles[
+                                                    "product-card__price"
+                                                    ]
+                                                }
+                                            >
+                                                $
+                                                {
+                                                    product.discont_price
+                                                }
+                                            </span>
+
+                                            <span
+                                                className={
+                                                    styles[
+                                                    "product-card__old-price"
+                                                    ]
+                                                }
+                                            >
+                                                ${product.price}
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span
+                                            className={
+                                                styles[
+                                                "product-card__price"
+                                                ]
+                                            }
+                                        >
+                                            ${product.price}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </Link>
@@ -268,4 +297,4 @@ function DiscountedItems({
     );
 }
 
-export default DiscountedItems;
+export default CategoryProducts;

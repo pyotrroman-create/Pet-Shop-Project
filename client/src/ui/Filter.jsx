@@ -65,31 +65,33 @@ function Filter({
                 />
             </div>
 
-            <label className={styles.filter__discount}>
-                <span className={styles.filter__title}>
-                    Discounted items
-                </span>
+            {discountedOnly !== undefined && (
+                <label className={styles.filter__discount}>
+                    <span className={styles.filter__title}>
+                        Discounted items
+                    </span>
 
-                <input
-                    type="checkbox"
-                    checked={discountedOnly}
-                    onChange={(event) =>
-                        onDiscountedChange(event.target.checked)
-                    }
-                    className={styles.filter__checkboxInput}
-                />
+                    <input
+                        type="checkbox"
+                        checked={discountedOnly}
+                        onChange={(event) =>
+                            onDiscountedChange(event.target.checked)
+                        }
+                        className={styles.filter__checkboxInput}
+                    />
 
-                <span
-                    className={`${styles.filter__checkbox} ${discountedOnly
-                        ? styles.filter__checkboxChecked
-                        : ""
-                        }`}
-                >
-                    {discountedOnly && (
-                        <span className={styles.filter__checkmark} />
-                    )}
-                </span>
-            </label>
+                    <span
+                        className={`${styles.filter__checkbox} ${discountedOnly
+                            ? styles.filter__checkboxChecked
+                            : ""
+                            }`}
+                    >
+                        {discountedOnly && (
+                            <span className={styles.filter__checkmark} />
+                        )}
+                    </span>
+                </label>
+            )}
 
             <div className={styles.filter__sort}>
                 <span className={styles.filter__title}>
