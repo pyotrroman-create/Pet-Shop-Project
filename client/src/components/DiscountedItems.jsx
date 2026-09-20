@@ -175,6 +175,13 @@ function DiscountedItems({
                         <Link
                             key={product.id}
                             to={`/products/${product.id}`}
+                            state={{
+                                breadcrumbs: [
+                                    { label: "Main Page", to: "/" },
+                                    { label: "All Sales", to: "/sales" },
+                                    { label: product.title },
+                                ],
+                            }}
                             className={
                                 styles["product-card"]
                             }
@@ -264,7 +271,7 @@ function DiscountedItems({
                     );
                 })}
             </div>
-        </main>
+        </main >
     );
 }
 

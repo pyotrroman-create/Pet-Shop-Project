@@ -90,7 +90,13 @@ function App() {
 
           <Route
             path="/products/:productId"
-            element={<ProductPage />}
+            element={
+              <ProductPage
+                cart={cart}
+                onAddToCart={handleAddToCart}
+                onRemoveFromCart={handleRemoveFromCart}
+              />
+            }
           />
 
           <Route path="*" element={<Not_foundPage />} />

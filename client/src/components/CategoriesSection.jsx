@@ -38,6 +38,9 @@ function CategoriesSection() {
                         className={styles["category-card"]}
                         key={category.id}
                         to={`/categories/${category.id}`}
+                        state={{
+                            fromHome: true,
+                        }}
                     >
                         <img
                             className={styles["category-card__image"]}

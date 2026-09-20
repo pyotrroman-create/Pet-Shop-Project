@@ -1,12 +1,21 @@
 import { useParams } from "react-router-dom";
+import ProductDetails from "../components/ProductDetails";
 
-function ProductPage() {
+function ProductPage({
+  cart,
+  onAddToCart,
+  onRemoveFromCart,
+}) {
   const { productId } = useParams();
 
   return (
     <div>
-      <h1>Product</h1>
-      <p>Product ID: {productId}</p>
+      <ProductDetails
+        productId={productId}
+        cart={cart}
+        onAddToCart={onAddToCart}
+        onRemoveFromCart={onRemoveFromCart}
+      />
     </div>
   );
 }

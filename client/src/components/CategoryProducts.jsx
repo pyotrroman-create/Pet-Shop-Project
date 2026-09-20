@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./CategoryProducts.module.css";
 import getDiscount from "../utils/getDiscount";
 import Filter from "../ui/Filter";
@@ -15,9 +15,9 @@ function CategoryProducts({
     onRemoveFromCart,
 }) {
     const { categoryId } = useParams();
-
+    const location = useLocation();
+    const fromHome = location.state?.fromHome
     console.log("Category ID:", categoryId);
-
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -68,19 +68,29 @@ function CategoryProducts({
     const categoryTitle =
         category?.title || "Category";
 
-    const breadcrumbItems = [
-        {
-            label: "Main Page",
-            to: "/",
-        },
-        {
-            label: "Categories",
-            to: "/categories",
-        },
-        {
-            label: categoryTitle,
-        },
-    ];
+    const breadcrumbItems = fromHome
+        ? [
+            {
+                label: "Main Page",
+                to: "/",
+            },
+            {
+                label: categoryTitle,
+            },
+        ]
+        : [
+            {
+                label: "Main Page",
+                to: "/",
+            },
+            {
+                label: "Categories",
+                to: "/categories",
+            },
+            {
+                label: categoryTitle,
+            },
+        ];
 
 
     const filteredProducts = [...products]
@@ -209,6 +219,26 @@ function CategoryProducts({
                         <Link
                             key={product.id}
                             to={`/products/${product.id}`}
+                            state={{
+                                breadcrumbs: fromHome
+                                    ? [
+                                        { label: "Main Page", to: "/" },
+                                        {
+                                            label: categoryTitle,
+                                            to: `/categories/${categoryId}`,
+                                        },
+                                        { label: product.title },
+                                    ]
+                                    : [
+                                        { label: "Main Page", to: "/" },
+                                        { label: "Categories", to: "/categories" },
+                                        {
+                                            label: categoryTitle,
+                                            to: `/categories/${categoryId}`,
+                                        },
+                                        { label: product.title },
+                                    ],
+                            }}
                             className={
                                 styles["product-card"]
                             }

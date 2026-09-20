@@ -9,14 +9,14 @@ function Breadcrumbs({ items = [] }) {
 
                 return isLast ? (
                     <span
-                        key={item.label}
+                        key={`${item.label}-${index}`}
                         className={styles.breadcrumbs__itemActive}
                     >
                         {item.label}
                     </span>
                 ) : (
                     <Link
-                        key={item.label}
+                        key={`${item.label}-${index}`}
                         to={item.to}
                         className={styles.breadcrumbs__item}
                     >

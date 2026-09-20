@@ -185,6 +185,13 @@ function CategoryProducts({
                         <Link
                             key={product.id}
                             to={`/products/${product.id}`}
+                            state={{
+                                breadcrumbs: [
+                                    { label: "Main Page", to: "/" },
+                                    { label: "All Products", to: "/products" },
+                                    { label: product.title },
+                                ],
+                            }}
                             className={
                                 styles["product-card"]
                             }
