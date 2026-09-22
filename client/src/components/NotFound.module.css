@@ -1,0 +1,66 @@
+.notFound {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.notFound__content {
+    width: 690.8px;
+    height: 530px;
+    text-align: center;
+}
+
+.notFound__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notFound__number {
+    width: 179.4px;
+    height: 245.88px;
+    margin-top: 12.06px;
+    margin-bottom: 12.06px;
+}
+
+.notFound__dog {
+    width: 300px;
+    height: 270px;
+    object-fit: contain;
+    margin: 12.06px 16px;
+}
+
+.notFound__title {
+    margin: 32px 0 16px;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 110%;
+    color: #282828;
+    letter-spacing: 0;
+}
+
+.notFound__text {
+    font-size: 20px;
+    color: #8b8b8b;
+    margin: 0;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: 0;
+}
+
+.notFound__button {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 16px 56px;
+    background-color: #0D50ff;
+    color: #FFFFFF;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+    transition: 0.2s;
+    line-height: 130%;
+    letter-spacing: 0;
+}

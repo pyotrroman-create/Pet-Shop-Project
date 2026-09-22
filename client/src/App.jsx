@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
@@ -9,20 +9,73 @@ import CartPage from "./pages/CartPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import CategoryProductsPage from "./pages/Category-productsPage";
 import ProductPage from "./pages/ProductPage";
-import Not_foundPage from "./pages/Not_foundPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import "./App.css";
 
 function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const handleAddToCart = (product) => {
     setCart((currentCart) => {
-      if (currentCart.some((item) => item.id === product.id)) {
-        return currentCart;
+      const existingProduct = currentCart.find(
+        (item) => item.id === product.id
+      );
+
+      if (existingProduct) {
+        return currentCart.map((item) =>
+          item.id === product.id
+            ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
+            : item
+        );
       }
 
-      return [...currentCart, product];
+      return [
+        ...currentCart,
+        {
+          ...product,
+          quantity: 1,
+        },
+      ];
     });
+  };
+
+  const increaseQuantity = (productId) => {
+    setCart((currentCart) =>
+      currentCart.map((item) =>
+        item.id === productId
+          ? {
+            ...item,
+            quantity: item.quantity + 1,
+          }
+          : item
+      )
+    );
+  };
+
+  const decreaseQuantity = (productId) => {
+    setCart((currentCart) =>
+      currentCart
+        .map((item) =>
+          item.id === productId
+            ? {
+              ...item,
+              quantity: item.quantity - 1,
+            }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
   };
 
   const handleRemoveFromCart = (productId) => {
@@ -31,9 +84,18 @@ function App() {
     );
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <>
-      <Header cartCount={cart.length} />
+      <Header
+        cartCount={cart.reduce(
+          (total, item) => total + item.quantity,
+          0
+        )}
+      />
 
       <main>
         <Routes>
@@ -72,10 +134,22 @@ function App() {
 
           <Route
             path="/cart"
-            element={<CartPage cart={cart} />}
+            element={
+              <CartPage
+                cart={cart}
+                onAddToCart={handleAddToCart}
+                onRemoveFromCart={handleRemoveFromCart}
+                increaseQuantity={increaseQuantity}
+                decreaseQuantity={decreaseQuantity}
+                clearCart={clearCart}
+              />
+            }
           />
 
-          <Route path="/categories" element={<CategoriesPage />} />
+          <Route
+            path="/categories"
+            element={<CategoriesPage />}
+          />
 
           <Route
             path="/categories/:categoryId"
@@ -87,7 +161,6 @@ function App() {
               />
             }
           />
-
           <Route
             path="/products/:productId"
             element={
@@ -99,7 +172,10 @@ function App() {
             }
           />
 
-          <Route path="*" element={<Not_foundPage />} />
+          <Route
+            path="*"
+            element={<NotFoundPage />}
+          />
         </Routes>
       </main>
 
