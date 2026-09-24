@@ -9,21 +9,22 @@ import AddToCartButton from "./AddToCartButton";
 
 const API_URL = "http://localhost:3333";
 
-function CategoryProducts({
-    cart,
-    onAddToCart,
-    onRemoveFromCart,
-}) {
+function CategoryProducts() {
     const { categoryId } = useParams();
     const location = useLocation();
-    const fromHome = location.state?.fromHome
+
+    const fromHome = location.state?.fromHome;
+
     console.log("Category ID:", categoryId);
+
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(true);
+
     const [priceFrom, setPriceFrom] = useState("");
     const [priceTo, setPriceTo] = useState("");
-    const [discountedOnly, setDiscountedOnly] = useState(false);
+    const [discountedOnly, setDiscountedOnly] =
+        useState(false);
     const [sort, setSort] = useState("default");
 
     useEffect(() => {
@@ -31,8 +32,10 @@ function CategoryProducts({
             try {
                 setLoading(true);
 
-                const categoryResponse = await axios.get(`${API_URL}/categories/${categoryId}`
+                const categoryResponse = await axios.get(
+                    `${API_URL}/categories/${categoryId}`
                 );
+
                 console.log(
                     "Category response:",
                     categoryResponse.data
@@ -92,12 +95,10 @@ function CategoryProducts({
             },
         ];
 
-
     const filteredProducts = [...products]
         .filter((product) => {
             const productPrice =
                 product.discont_price ?? product.price;
-
 
             if (
                 priceFrom !== "" &&
@@ -106,14 +107,12 @@ function CategoryProducts({
                 return false;
             }
 
-
             if (
                 priceTo !== "" &&
                 productPrice > Number(priceTo)
             ) {
                 return false;
             }
-
 
             if (
                 discountedOnly &&
@@ -129,7 +128,6 @@ function CategoryProducts({
             return true;
         })
         .sort((a, b) => {
-
             if (sort === "price-low-high") {
                 const priceA =
                     a.discont_price ?? a.price;
@@ -140,7 +138,6 @@ function CategoryProducts({
                 return priceA - priceB;
             }
 
-
             if (sort === "price-high-low") {
                 const priceA =
                     a.discont_price ?? a.price;
@@ -150,7 +147,6 @@ function CategoryProducts({
 
                 return priceB - priceA;
             }
-
             if (sort === "newest") {
                 return (
                     new Date(b.createdAt) -
@@ -166,7 +162,9 @@ function CategoryProducts({
             <main className={styles["category-products"]}>
                 <p
                     className={
-                        styles["category-products__loading"]
+                        styles[
+                        "category-products__loading"
+                        ]
                     }
                 >
                     Loading...
@@ -179,7 +177,11 @@ function CategoryProducts({
         <main className={styles["category-products"]}>
             <Breadcrumbs items={breadcrumbItems} />
 
-            <h1 className={styles["category-products__title"]}>
+            <h1
+                className={
+                    styles["category-products__title"]
+                }
+            >
                 {categoryTitle}
             </h1>
 
@@ -200,9 +202,6 @@ function CategoryProducts({
                 }
             >
                 {filteredProducts.map((product) => {
-                    const isInCart = cart.some(
-                        (item) => item.id === product.id
-                    );
                     const hasDiscount =
                         product.discont_price !== null &&
                         product.discont_price !== undefined &&
@@ -222,21 +221,34 @@ function CategoryProducts({
                             state={{
                                 breadcrumbs: fromHome
                                     ? [
-                                        { label: "Main Page", to: "/" },
+                                        {
+                                            label: "Main Page",
+                                            to: "/",
+                                        },
                                         {
                                             label: categoryTitle,
                                             to: `/categories/${categoryId}`,
                                         },
-                                        { label: product.title },
+                                        {
+                                            label: product.title,
+                                        },
                                     ]
                                     : [
-                                        { label: "Main Page", to: "/" },
-                                        { label: "Categories", to: "/categories" },
+                                        {
+                                            label: "Main Page",
+                                            to: "/",
+                                        },
+                                        {
+                                            label: "Categories",
+                                            to: "/categories",
+                                        },
                                         {
                                             label: categoryTitle,
                                             to: `/categories/${categoryId}`,
                                         },
-                                        { label: product.title },
+                                        {
+                                            label: product.title,
+                                        },
                                     ],
                             }}
                             className={
@@ -274,11 +286,7 @@ function CategoryProducts({
 
                                 <AddToCartButton
                                     product={product}
-                                    isInCart={isInCart}
-                                    onAddToCart={onAddToCart}
-                                    onRemoveFromCart={onRemoveFromCart}
                                 />
-
                             </div>
 
                             <div
@@ -346,8 +354,8 @@ function CategoryProducts({
                         </Link>
                     );
                 })}
-            </div >
-        </main >
+            </div>
+        </main>
     );
 }
 

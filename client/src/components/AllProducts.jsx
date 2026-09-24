@@ -9,11 +9,7 @@ import AddToCartButton from "./AddToCartButton";
 
 const API_URL = "http://localhost:3333";
 
-function CategoryProducts({
-    cart,
-    onAddToCart,
-    onRemoveFromCart,
-}) {
+function CategoryProducts() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -31,7 +27,10 @@ function CategoryProducts({
                     `${API_URL}/products/all`
                 );
 
-                console.log("Products response:", response.data);
+                console.log(
+                    "Products response:",
+                    response.data
+                );
 
                 setProducts(response.data ?? []);
             } catch (error) {
@@ -132,7 +131,9 @@ function CategoryProducts({
             <main className={styles["category-products"]}>
                 <p
                     className={
-                        styles["category-products__loading"]
+                        styles[
+                        "category-products__loading"
+                        ]
                     }
                 >
                     Loading...
@@ -145,7 +146,11 @@ function CategoryProducts({
         <main className={styles["category-products"]}>
             <Breadcrumbs items={breadcrumbItems} />
 
-            <h1 className={styles["category-products__title"]}>
+            <h1
+                className={
+                    styles["category-products__title"]
+                }
+            >
                 All products
             </h1>
             <Filter
@@ -165,10 +170,6 @@ function CategoryProducts({
                 }
             >
                 {filteredProducts.map((product) => {
-                    const isInCart = cart.some(
-                        (item) => item.id === product.id
-                    );
-
                     const hasDiscount =
                         product.discont_price !== null &&
                         product.discont_price !== undefined &&
@@ -187,9 +188,17 @@ function CategoryProducts({
                             to={`/products/${product.id}`}
                             state={{
                                 breadcrumbs: [
-                                    { label: "Main Page", to: "/" },
-                                    { label: "All Products", to: "/products" },
-                                    { label: product.title },
+                                    {
+                                        label: "Main Page",
+                                        to: "/",
+                                    },
+                                    {
+                                        label: "All Products",
+                                        to: "/products",
+                                    },
+                                    {
+                                        label: product.title,
+                                    },
                                 ],
                             }}
                             className={
@@ -227,11 +236,6 @@ function CategoryProducts({
 
                                 <AddToCartButton
                                     product={product}
-                                    isInCart={isInCart}
-                                    onAddToCart={onAddToCart}
-                                    onRemoveFromCart={
-                                        onRemoveFromCart
-                                    }
                                 />
                             </div>
 
@@ -251,6 +255,7 @@ function CategoryProducts({
                                 >
                                     {product.title}
                                 </h2>
+
                                 <div
                                     className={
                                         styles[

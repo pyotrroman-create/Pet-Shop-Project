@@ -2,18 +2,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import styles from "./Cart.module.css";
+import { useDispatch, useSelector } from "react-redux";
 
-
-const API_URL = "http://localhost:3333";
-
-function Cart({
-    cart,
-    onRemoveFromCart,
+import {
+    removeFromCart,
     increaseQuantity,
     decreaseQuantity,
     clearCart,
-}) {
+} from "../store/cartSlice";
+
+import styles from "./Cart.module.css";
+
+const API_URL = "http://localhost:3333";
+
+function Cart() {
+    const dispatch = useDispatch();
+
+    const cart = useSelector((state) => state.cart.items);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [orderError, setOrderError] = useState("");
@@ -61,12 +67,18 @@ function Cart({
 
             console.log("Order data:", orderData);
 
-            await axios.post(`${API_URL}/order/send`, orderData);
+            await axios.post(
+                `${API_URL}/order/send`,
+                orderData
+            );
 
             setIsModalOpen(true);
         } catch (error) {
             console.error("Error sending order:", error);
-            console.error("Backend response:", error.response?.data);
+            console.error(
+                "Backend response:",
+                error.response?.data
+            );
 
             setOrderError(
                 "Something went wrong. Please try again."
@@ -78,7 +90,7 @@ function Cart({
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        clearCart();
+        dispatch(clearCart());
         reset();
     };
 
@@ -100,7 +112,8 @@ function Cart({
 
                 <div className={styles["cart-page__empty"]}>
                     <p>
-                        Looks like you have no items in your basket currently.
+                        Looks like you have no items in your basket
+                        currently.
                     </p>
 
                     <Link
@@ -128,14 +141,16 @@ function Cart({
                     Back to the store
                 </Link>
             </div>
-
             <div className={styles["cart-page__content"]}>
                 <div className={styles["cart-page__items"]}>
                     {cart.map((product) => {
-                        const currentPrice = getProductPrice(product);
+                        const currentPrice =
+                            getProductPrice(product);
+
                         const hasDiscount =
                             product.discont_price != null &&
-                            product.discont_price < product.price;
+                            product.discont_price <
+                            product.price;
 
                         return (
                             <article
@@ -144,52 +159,109 @@ function Cart({
                             >
                                 <Link
                                     to={`/products/${product.id}`}
-                                    className={styles["cart-item__image-wrapper"]}
+                                    className={
+                                        styles[
+                                        "cart-item__image-wrapper"
+                                        ]
+                                    }
                                 >
                                     <img
                                         src={`${API_URL}${product.image}`}
                                         alt={product.title}
-                                        className={styles["cart-item__image"]}
+                                        className={
+                                            styles[
+                                            "cart-item__image"
+                                            ]
+                                        }
                                     />
                                 </Link>
 
-                                <div className={styles["cart-item__info"]}>
+                                <div
+                                    className={
+                                        styles["cart-item__info"]
+                                    }
+                                >
                                     <Link
                                         to={`/products/${product.id}`}
-                                        className={styles["cart-item__title"]}
+                                        className={
+                                            styles[
+                                            "cart-item__title"
+                                            ]
+                                        }
                                     >
                                         {product.title}
                                     </Link>
 
-                                    <div className={styles["cart-item__bottom"]}>
-                                        <div className={styles["cart-item__quantity"]}>
+                                    <div
+                                        className={
+                                            styles[
+                                            "cart-item__bottom"
+                                            ]
+                                        }
+                                    >
+                                        <div
+                                            className={
+                                                styles[
+                                                "cart-item__quantity"
+                                                ]
+                                            }
+                                        >
                                             <button
                                                 type="button"
-                                                onClick={() => decreaseQuantity(product.id)}
+                                                onClick={() =>
+                                                    dispatch(
+                                                        decreaseQuantity(
+                                                            product.id
+                                                        )
+                                                    )
+                                                }
                                                 aria-label="Decrease quantity"
                                             >
                                                 −
                                             </button>
 
-                                            <span>{product.quantity}</span>
-
+                                            <span>
+                                                {product.quantity}
+                                            </span>
                                             <button
                                                 type="button"
-                                                onClick={() => increaseQuantity(product.id)}
+                                                onClick={() =>
+                                                    dispatch(
+                                                        increaseQuantity(
+                                                            product.id
+                                                        )
+                                                    )
+                                                }
                                                 aria-label="Increase quantity"
                                             >
                                                 +
                                             </button>
                                         </div>
 
-                                        <div className={styles["cart-item__prices"]}>
-                                            <span className={styles["cart-item__price"]}>
+                                        <div
+                                            className={
+                                                styles[
+                                                "cart-item__prices"
+                                                ]
+                                            }
+                                        >
+                                            <span
+                                                className={
+                                                    styles[
+                                                    "cart-item__price"
+                                                    ]
+                                                }
+                                            >
                                                 ${currentPrice}
                                             </span>
 
                                             {hasDiscount && (
                                                 <span
-                                                    className={styles["cart-item__old-price"]}
+                                                    className={
+                                                        styles[
+                                                        "cart-item__old-price"
+                                                        ]
+                                                    }
                                                 >
                                                     ${product.price}
                                                 </span>
@@ -200,8 +272,18 @@ function Cart({
 
                                 <button
                                     type="button"
-                                    className={styles["cart-item__remove"]}
-                                    onClick={() => onRemoveFromCart(product.id)}
+                                    className={
+                                        styles[
+                                        "cart-item__remove"
+                                        ]
+                                    }
+                                    onClick={() =>
+                                        dispatch(
+                                            removeFromCart(
+                                                product.id
+                                            )
+                                        )
+                                    }
                                     aria-label={`Remove ${product.title} from cart`}
                                 >
                                     ×
@@ -209,22 +291,38 @@ function Cart({
                             </article>
                         );
                     })}
-                </div>
+                </div >
 
-                <aside className={styles["order-details"]}>
+                <aside
+                    className={styles["order-details"]}
+                >
                     <h2>Order details</h2>
 
-                    <div className={styles["order-details__row"]}>
+                    <div
+                        className={
+                            styles["order-details__row"]
+                        }
+                    >
                         <span>
                             {totalItems}{" "}
-                            {totalItems === 1 ? "item" : "items"}
+                            {totalItems === 1
+                                ? "item"
+                                : "items"}
                         </span>
                     </div>
-
-                    <div className={styles["order-details__total"]}>
+                    <div
+                        className={
+                            styles["order-details__total"]
+                        }
+                    >
                         <span>Total</span>
 
-                        <strong>${totalPrice.toFixed(2).replace(".", ",")}</strong>
+                        <strong>
+                            $
+                            {totalPrice
+                                .toFixed(2)
+                                .replace(".", ",")}
+                        </strong>
                     </div>
 
                     <form
@@ -235,12 +333,19 @@ function Cart({
                             type="text"
                             placeholder="Name"
                             {...register("name", {
-                                required: "Name is required",
+                                required:
+                                    "Name is required",
                             })}
                         />
 
                         {errors.name && (
-                            <span className={styles["order-form__error"]}>
+                            <span
+                                className={
+                                    styles[
+                                    "order-form__error"
+                                    ]
+                                }
+                            >
                                 {errors.name.message}
                             </span>
                         )}
@@ -249,12 +354,19 @@ function Cart({
                             type="tel"
                             placeholder="Phone number"
                             {...register("phoneNumber", {
-                                required: "Phone number is required",
+                                required:
+                                    "Phone number is required",
                             })}
                         />
 
                         {errors.phoneNumber && (
-                            <span className={styles["order-form__error"]}>
+                            <span
+                                className={
+                                    styles[
+                                    "order-form__error"
+                                    ]
+                                }
+                            >
                                 {errors.phoneNumber.message}
                             </span>
                         )}
@@ -263,65 +375,111 @@ function Cart({
                             type="email"
                             placeholder="Email"
                             {...register("email", {
-                                required: "Email is required",
+                                required:
+                                    "Email is required",
                             })}
                         />
 
                         {errors.email && (
-                            <span className={styles["order-form__error"]}>
+                            <span
+                                className={
+                                    styles[
+                                    "order-form__error"
+                                    ]
+                                }
+                            >
                                 {errors.email.message}
                             </span>
                         )}
 
                         {orderError && (
-                            <p className={styles["order-form__error-message"]}>
+                            <p
+                                className={
+                                    styles[
+                                    "order-form__error-message"
+                                    ]
+                                }
+                            >
                                 {orderError}
                             </p>
                         )}
+
                         <button
                             type="submit"
-                            className={styles["order-form__submit"]}
+                            className={
+                                styles[
+                                "order-form__submit"
+                                ]
+                            }
                             disabled={isSending}
                         >
-                            {isSending ? "Sending..." : "Order"}
+                            {isSending
+                                ? "Sending..."
+                                : "Order"}
                         </button>
                     </form>
                 </aside>
-            </div>
-
-            {isModalOpen && (
-                <div className={styles["order-modal"]}>
-                    <div className={styles["order-modal__content"]}>
-                        <button
-                            type="button"
-                            className={styles["order-modal__close"]}
-                            onClick={handleCloseModal}
-                            aria-label="Close"
+            </div >
+            {
+                isModalOpen && (
+                    <div
+                        className={
+                            styles["order-modal"]
+                        }
+                    >
+                        <div
+                            className={
+                                styles[
+                                "order-modal__content"
+                                ]
+                            }
                         >
-                            ×
-                        </button>
+                            <button
+                                type="button"
+                                className={
+                                    styles[
+                                    "order-modal__close"
+                                    ]
+                                }
+                                onClick={
+                                    handleCloseModal
+                                }
+                                aria-label="Close"
+                            >
+                                ×
+                            </button>
 
-                        <h2>Congratulations!</h2>
+                            <h2>Congratulations!</h2>
 
-                        <p>
-                            Your order has been successfully placed on the website.
-                        </p>
+                            <p>
+                                Your order has been
+                                successfully placed on the
+                                website.
+                            </p>
 
-                        <p>
-                            A manager will contact you shortly to confirm your order.
-                        </p>
+                            <p>
+                                A manager will contact you
+                                shortly to confirm your order.
+                            </p>
 
-                        <button
-                            type="button"
-                            className={styles["order-modal__button"]}
-                            onClick={handleCloseModal}
-                        >
-                            Continue shopping
-                        </button>
+                            <button
+                                type="button"
+                                className={
+                                    styles[
+                                    "order-modal__button"
+                                    ]
+                                }
+                                onClick={
+                                    handleCloseModal
+                                }
+                            >
+                                Continue shopping
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
-        </main>
+                )
+            }
+        </main >
     );
 }
 

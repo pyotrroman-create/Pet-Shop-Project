@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+
 import styles from "./SaleSection.module.css";
 import getDiscount from "../utils/getDiscount";
 import AddToCartButton from "./AddToCartButton";
 
 const API_URL = "http://localhost:3333";
 
-function SaleSection({
-    cart = [],
-    onAddToCart,
-    onRemoveFromCart,
-}) {
+function SaleSection() {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -21,7 +18,10 @@ function SaleSection({
                 setProducts(response.data);
             })
             .catch((error) => {
-                console.error("Error loading products:", error);
+                console.error(
+                    "Error loading products:",
+                    error
+                );
             });
     }, []);
 
@@ -39,7 +39,9 @@ function SaleSection({
             <div className={styles["sale-section__header"]}>
                 <h2>Sale</h2>
 
-                <div className={styles["sale-section__line"]} />
+                <div
+                    className={styles["sale-section__line"]}
+                />
 
                 <Link
                     className={styles["sale-section__all"]}
@@ -59,10 +61,6 @@ function SaleSection({
                         newPrice
                     );
 
-                    const isInCart = cart.some(
-                        (item) => item.id === product.id
-                    );
-
                     return (
                         <Link
                             key={product.id}
@@ -78,7 +76,9 @@ function SaleSection({
                             >
                                 <img
                                     className={
-                                        styles["sale-card__image"]
+                                        styles[
+                                        "sale-card__image"
+                                        ]
                                     }
                                     src={`${API_URL}${product.image}`}
                                     alt={product.title}
@@ -96,11 +96,6 @@ function SaleSection({
 
                                 <AddToCartButton
                                     product={product}
-                                    isInCart={isInCart}
-                                    onAddToCart={onAddToCart}
-                                    onRemoveFromCart={
-                                        onRemoveFromCart
-                                    }
                                 />
                             </div>
 
@@ -118,7 +113,6 @@ function SaleSection({
                                 >
                                     {product.title}
                                 </h3>
-
                                 <div
                                     className={
                                         styles[

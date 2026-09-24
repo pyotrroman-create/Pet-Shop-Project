@@ -6,19 +6,27 @@ import {
 } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./ProductDetails.module.css";
 import getDiscount from "../utils/getDiscount";
 import Breadcrumbs from "../ui/Breadcrumbs";
 
+import {
+    addToCart,
+    removeFromCart,
+} from "../store/cartSlice";
+
 const API_URL = "http://localhost:3333";
 
-function ProductDetails({
-    cart,
-    onAddToCart,
-    onRemoveFromCart,
-}) {
+function ProductDetails() {
     const { productId } = useParams();
     const location = useLocation();
+
+    const dispatch = useDispatch();
+
+    const cart = useSelector(
+        (state) => state.cart.items
+    );
 
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -134,13 +142,13 @@ function ProductDetails({
                 readMore.getBoundingClientRect().height;
 
             const readMoreMarginTop = 16;
+
             const availableHeight =
                 descriptionHeight -
                 titleHeight -
                 titleMarginBottom -
                 readMoreHeight -
                 readMoreMarginTop;
-
             const lines = Math.max(
                 1,
                 Math.floor(
@@ -200,9 +208,14 @@ function ProductDetails({
         );
 
         if (isInCart) {
-            onRemoveFromCart(product.id);
+            dispatch(removeFromCart(product.id));
         } else {
-            onAddToCart(product);
+            dispatch(
+                addToCart({
+                    product,
+                    quantity,
+                })
+            );
         }
     };
 
@@ -224,7 +237,9 @@ function ProductDetails({
             <main className={styles["product-page"]}>
                 <p
                     className={
-                        styles["product-page__loading"]
+                        styles[
+                        "product-page__loading"
+                        ]
                     }
                 >
                     Loading...
@@ -238,7 +253,9 @@ function ProductDetails({
             <main className={styles["product-page"]}>
                 <p
                     className={
-                        styles["product-page__error"]
+                        styles[
+                        "product-page__error"
+                        ]
                     }
                 >
                     {error || "Product not found."}
@@ -335,7 +352,9 @@ function ProductDetails({
 
                     <div
                         className={
-                            styles["product-page__prices"]
+                            styles[
+                            "product-page__prices"
+                            ]
                         }
                     >
                         <span
@@ -381,7 +400,9 @@ function ProductDetails({
 
                     <div
                         className={
-                            styles["product-page__cart-row"]
+                            styles[
+                            "product-page__cart-row"
+                            ]
                         }
                     >
                         <div
@@ -413,12 +434,11 @@ function ProductDetails({
                             type="button"
                             className={`${styles[
                                 "product-page__cart-button"
-                            ]
-                                } ${isInCart
-                                    ? styles[
-                                    "product-page__cart-button--added"
-                                    ]
-                                    : ""
+                            ]} ${isInCart
+                                ? styles[
+                                "product-page__cart-button--added"
+                                ]
+                                : ""
                                 }`}
                             onClick={handleCartClick}
                         >
@@ -456,8 +476,10 @@ function ProductDetails({
                                         display: "block",
                                         WebkitLineClamp:
                                             "unset",
-                                        overflow: "visible",
-                                        maxHeight: "none",
+                                        overflow:
+                                            "visible",
+                                        maxHeight:
+                                            "none",
                                     }
                                     : descriptionLines
                                         ? {

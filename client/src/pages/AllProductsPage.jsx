@@ -1,17 +1,9 @@
 import AllProducts from "../components/AllProducts";
 
-function AllProductsPage({
-  cart,
-  onAddToCart,
-  onRemoveFromCart,
-}) {
+function AllProductsPage() {
   return (
     <div>
-      <AllProducts
-        cart={cart}
-        onAddToCart={onAddToCart}
-        onRemoveFromCart={onRemoveFromCart}
-      />
+      <AllProducts />
     </div>
   );
 }

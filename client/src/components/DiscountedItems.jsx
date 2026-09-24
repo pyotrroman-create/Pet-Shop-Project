@@ -9,11 +9,7 @@ import AddToCartButton from "./AddToCartButton";
 
 const API_URL = "http://localhost:3333";
 
-function DiscountedItems({
-    cart,
-    onAddToCart,
-    onRemoveFromCart,
-}) {
+function DiscountedItems() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [priceFrom, setPriceFrom] = useState("");
@@ -131,7 +127,9 @@ function DiscountedItems({
             <main className={styles["category-products"]}>
                 <p
                     className={
-                        styles["category-products__loading"]
+                        styles[
+                        "category-products__loading"
+                        ]
                     }
                 >
                     Loading...
@@ -144,7 +142,11 @@ function DiscountedItems({
         <main className={styles["category-products"]}>
             <Breadcrumbs items={breadcrumbItems} />
 
-            <h1 className={styles["category-products__title"]}>
+            <h1
+                className={
+                    styles["category-products__title"]
+                }
+            >
                 Discounted items
             </h1>
             <Filter
@@ -162,10 +164,6 @@ function DiscountedItems({
                 }
             >
                 {discountedProducts.map((product) => {
-                    const isInCart = cart.some(
-                        (item) => item.id === product.id
-                    );
-
                     const discount = getDiscount(
                         product.price,
                         product.discont_price
@@ -177,9 +175,17 @@ function DiscountedItems({
                             to={`/products/${product.id}`}
                             state={{
                                 breadcrumbs: [
-                                    { label: "Main Page", to: "/" },
-                                    { label: "All Sales", to: "/sales" },
-                                    { label: product.title },
+                                    {
+                                        label: "Main Page",
+                                        to: "/",
+                                    },
+                                    {
+                                        label: "All Sales",
+                                        to: "/sales",
+                                    },
+                                    {
+                                        label: product.title,
+                                    },
                                 ],
                             }}
                             className={
@@ -215,11 +221,6 @@ function DiscountedItems({
 
                                 <AddToCartButton
                                     product={product}
-                                    isInCart={isInCart}
-                                    onAddToCart={onAddToCart}
-                                    onRemoveFromCart={
-                                        onRemoveFromCart
-                                    }
                                 />
                             </div>
 
@@ -256,6 +257,7 @@ function DiscountedItems({
                                     >
                                         ${product.discont_price}
                                     </span>
+
                                     <span
                                         className={
                                             styles[
@@ -271,7 +273,7 @@ function DiscountedItems({
                     );
                 })}
             </div>
-        </main >
+        </main>
     );
 }
 

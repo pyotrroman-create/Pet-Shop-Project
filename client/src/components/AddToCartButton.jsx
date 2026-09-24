@@ -1,25 +1,37 @@
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./AddToCartButton.module.css";
+import {
+    addToCart,
+    removeFromCart,
+} from "../store/cartSlice";
 
-function AddToCartButton({
-    product,
-    isInCart,
-    onAddToCart,
-    onRemoveFromCart,
-}) {
+function AddToCartButton({ product }) {
+    const dispatch = useDispatch();
+
+    const cart = useSelector((state) => state.cart.items);
+
+    const isInCart = cart.some(
+        (item) => item.id === product.id
+    );
+
     const handleClick = (event) => {
         event.preventDefault();
         event.stopPropagation();
 
         if (isInCart) {
-            onRemoveFromCart(product.id);
+            dispatch(removeFromCart(product.id));
         } else {
-            onAddToCart(product);
+            dispatch(addToCart(product));
         }
     };
+
     return (
         <button
             type="button"
-            className={`cart-button ${styles["cart-button"]} ${isInCart ? styles["cart-button--added"] : ""
+            className={`cart-button ${styles["cart-button"]
+                } ${isInCart
+                    ? styles["cart-button--added"]
+                    : ""
                 }`}
             onClick={handleClick}
         >

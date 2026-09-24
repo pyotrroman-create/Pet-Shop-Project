@@ -1,23 +1,14 @@
-import DiscountedItems from '../components/DiscountedItems';
+import DiscountedItems from "../components/DiscountedItems";
 
-function AllSalesPage({
-  cart,
-  onAddToCart,
-  onRemoveFromCart,
-}) {
+function AllSalesPage() {
   return (
     <div>
-      <DiscountedItems
-        cart={cart}
-        onAddToCart={onAddToCart}
-        onRemoveFromCart={onRemoveFromCart}
-      />
+      <DiscountedItems />
     </div>
   );
 }
 
 export default AllSalesPage;
-
 
 
 

@@ -3,11 +3,7 @@ import CategoriesSection from "../components/CategoriesSection";
 import DiscountForm from "../components/DiscountForm";
 import SaleSection from "../components/SaleSection";
 
-function HomePage({
-  cart,
-  onAddToCart,
-  onRemoveFromCart,
-}) {
+function HomePage() {
   return (
     <div>
       <PromotionsSection />
@@ -16,11 +12,7 @@ function HomePage({
 
       <DiscountForm />
 
-      <SaleSection
-        cart={cart}
-        onAddToCart={onAddToCart}
-        onRemoveFromCart={onRemoveFromCart}
-      />
+      <SaleSection />
     </div>
   );
 }

@@ -1,15 +1,27 @@
 import { NavLink, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styles from "./Header.module.css";
-
 import logo from "../assets/icons/Logo.svg";
 import cartIcon from "../assets/icons/cart.svg";
 
-function Header({ cartCount = 0 }) {
+function Header() {
+    const cart = useSelector(
+        (state) => state.cart.items
+    );
+
+    const cartCount = cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+    );
+
     return (
         <header className={styles.header}>
             <div className={styles.header__container}>
 
-                <Link to="/" className={styles.header__logo}>
+                <Link
+                    to="/"
+                    className={styles.header__logo}
+                >
                     <img
                         src={logo}
                         alt="Pet Shop"
@@ -48,7 +60,10 @@ function Header({ cartCount = 0 }) {
                     </NavLink>
                 </nav>
 
-                <Link to="/cart" className={styles.header__cart}>
+                <Link
+                    to="/cart"
+                    className={styles.header__cart}
+                >
                     <img
                         src={cartIcon}
                         alt="Cart"
@@ -56,7 +71,11 @@ function Header({ cartCount = 0 }) {
                     />
 
                     {cartCount > 0 && (
-                        <span className={styles.header__cartCount}>
+                        <span
+                            className={
+                                styles.header__cartCount
+                            }
+                        >
                             {cartCount}
                         </span>
                     )}

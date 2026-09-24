@@ -1,31 +1,11 @@
 import Cart from "../components/Cart";
 
-function CartPage({
-  cart,
-  onRemoveFromCart,
-  increaseQuantity,
-  decreaseQuantity,
-  clearCart,
-}) {
+function CartPage() {
   return (
     <div>
-      <Cart
-        cart={cart}
-        onRemoveFromCart={onRemoveFromCart}
-        increaseQuantity={increaseQuantity}
-        decreaseQuantity={decreaseQuantity}
-        clearCart={clearCart}
-      />
+      <Cart />
     </div>
   );
 }
 
 export default CartPage;
-
-
-
-
-
-
-
-

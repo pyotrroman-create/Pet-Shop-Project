@@ -1,17 +1,9 @@
 import CategoryProducts from "../components/CategoryProducts";
 
-function Category_productsPage({
-  cart,
-  onAddToCart,
-  onRemoveFromCart,
-}) {
+function Category_productsPage() {
   return (
     <div>
-      <CategoryProducts
-        cart={cart}
-        onAddToCart={onAddToCart}
-        onRemoveFromCart={onRemoveFromCart}
-      />
+      <CategoryProducts />
     </div>
   );
 }
