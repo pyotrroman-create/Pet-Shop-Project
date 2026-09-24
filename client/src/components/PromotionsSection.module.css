@@ -2,6 +2,7 @@
   position: relative;
   width: 100%;
   min-height: 600px;
+  margin: 0 auto;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -19,7 +20,10 @@
   position: relative;
   z-index: 1;
   width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 80px 40px 210px;
+  box-sizing: border-box;
 }
 
 .title {
